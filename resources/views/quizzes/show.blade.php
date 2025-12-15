@@ -4,13 +4,13 @@
     @php $result = session('result'); @endphp
     <div class="row g-4 fade-rise">
         <div class="col-lg-8">
-            <div class="glass rounded-4 p-4 mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge text-bg-dark text-uppercase">{{ $quiz->category }}</span>
-                    <div class="d-flex gap-2 text-secondary small">
-                        <span><i class="bi bi-graph-up-arrow me-1"></i>{{ ucfirst($quiz->difficulty) }}</span>
-                        <span><i class="bi bi-clock me-1"></i>{{ $quiz->time_limit_seconds ?? '120' }}s</span>
-                        <span><i class="bi bi-question-circle me-1"></i>{{ $quiz->question_count ?: $quiz->questions->count() }} questions</span>
+            <div class="hero-surface rounded-4 p-4 p-lg-5 mb-3">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-2">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge badge-glow text-uppercase">{{ $quiz->category }}</span>
+                        <span class="pill"><i class="bi bi-graph-up-arrow text-info"></i>{{ ucfirst($quiz->difficulty) }}</span>
+                        <span class="pill"><i class="bi bi-clock text-warning"></i>{{ $quiz->time_limit_seconds ?? '120' }}s</span>
+                        <span class="pill"><i class="bi bi-question-circle text-success"></i>{{ $quiz->question_count ?: $quiz->questions->count() }} questions</span>
                     </div>
                 </div>
                 <h2 class="fw-bold">{{ $quiz->title }}</h2>
@@ -19,7 +19,7 @@
 
             @if ($result)
                 <div class="alert alert-success glass border-0 fade-rise in-view">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <div>
                             <div class="fw-semibold">Your latest IQ pulse: {{ $result['percentage'] }}% ({{ $result['label'] }})</div>
                             <div class="text-secondary small">Score {{ $result['score'] }} / {{ $result['max'] }} | Estimated IQ {{ $result['iq'] }}</div>
@@ -33,8 +33,8 @@
                 @csrf
                 <input type="hidden" id="timeSpent" name="time_spent_seconds" value="0">
                 @foreach ($quiz->questions as $index => $question)
-                    <div class="card rounded-4 p-3 mb-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="card rounded-4 p-3 p-md-4 mb-3 border-0">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                             <div class="fw-semibold">Q{{ $index + 1 }}. {{ $question->prompt }}</div>
                             <span class="badge badge-soft text-uppercase">{{ $question->type }}</span>
                         </div>
@@ -42,7 +42,7 @@
                             <div class="row g-2">
                                 @foreach ($question->options as $key => $option)
                                     <div class="col-md-6">
-                                        <label class="d-flex align-items-center gap-2 p-2 rounded-3 border border-dark w-100 hover-shadow" style="cursor:pointer;">
+                                        <label class="d-flex align-items-center gap-3 p-3 rounded-3 border border-dark w-100 hover-shadow" style="cursor:pointer;">
                                             @if ($question->type === 'multi')
                                                 <input type="checkbox" class="form-check-input mt-0" name="answers[{{ $question->id }}][]" value="{{ $key }}">
                                             @else
@@ -64,7 +64,7 @@
                 @auth
                     <button class="btn btn-accent btn-lg w-100 mt-3">Submit & calculate IQ</button>
                 @else
-                    <div class="alert alert-info">
+                    <div class="alert alert-info glass border-0">
                         Please <a href="{{ route('login') }}" class="text-white fw-semibold">login</a> or
                         <a href="{{ route('register') }}" class="text-white fw-semibold">sign up</a> to play and post your score.
                     </div>
@@ -72,7 +72,7 @@
             </form>
         </div>
         <div class="col-lg-4">
-            <div class="card rounded-4 p-3 mb-3">
+            <div class="card rounded-4 p-3 mb-3 border-0">
                 <h6 class="fw-semibold mb-2">Quick facts</h6>
                 <div class="d-flex flex-column gap-2 text-secondary small">
                     <div><i class="bi bi-lightbulb me-2 text-info"></i>Adaptive difficulty with each play</div>
@@ -80,7 +80,7 @@
                     <div><i class="bi bi-trophy me-2 text-info"></i>Scores push to the live leaderboard</div>
                 </div>
             </div>
-            <div class="card rounded-4 p-3">
+            <div class="card rounded-4 p-3 border-0">
                 <h6 class="fw-semibold mb-3">More to explore</h6>
                 @foreach ($alternatives as $alt)
                     <div class="d-flex justify-content-between align-items-center mb-2">
